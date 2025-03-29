@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
@@ -6,15 +6,21 @@ const symbols = "!@#$%^&*()-_=+[]{}|;:'\,.<>?/`~";
 
 function App() {
 
-  const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [specialization, setSpecialization] = useState("");
-  const [experience, setExperience] = useState("");
   const [description, setDescription] = useState("");
+
+  const nameRef = useRef();
+  const specializationRef = useRef();
+  const experienceRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const name = nameRef.current.value;
+    const specialization = specializationRef.current.value;
+    const experience = experienceRef.current.value;
+    
     if (!name.trim() || !username.trim() || !password.trim() || !specialization.trim() || !experience.trim() || !description.trim()) {
       alert("Compila tutti i campi");
       return;
@@ -75,8 +81,7 @@ function App() {
           <input
             type="text"
             id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            ref={nameRef}
           />
         </div>
 
@@ -114,8 +119,7 @@ function App() {
           <label htmlFor="specialization">Specializzazione</label>
           <select
             id="specialization"
-            value={specialization}
-            onChange={(e) => setSpecialization(e.target.value)}
+            ref={specializationRef}
           >
             <option value="">Seleziona una specializzazione</option>
             <option value="fullstack">Full Stack</option>
@@ -129,8 +133,7 @@ function App() {
           <input
             type="number"
             id="experience"
-            value={experience}
-            onChange={(e) => setExperience(e.target.value)}
+            ref={experienceRef}
           />
         </div>
 
