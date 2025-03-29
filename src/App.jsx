@@ -1,4 +1,4 @@
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
@@ -20,7 +20,7 @@ function App() {
     const name = nameRef.current.value;
     const specialization = specializationRef.current.value;
     const experience = experienceRef.current.value;
-    
+
     if (!name.trim() || !username.trim() || !password.trim() || !specialization.trim() || !experience.trim() || !description.trim()) {
       alert("Compila tutti i campi");
       return;
@@ -71,6 +71,21 @@ function App() {
     return description.trim().length >= 100 &&
       description.trim().length <= 1000;
   }, [description])
+
+  useEffect(() => {
+    nameRef.current.focus();
+  }, []);
+
+  const resetForm = e => {
+    e.preventDefault();
+    setUsername("");
+    setPassword("");
+    setDescription("");
+    nameRef.current.value = "";
+    specializationRef.current.value = "";
+    experienceRef.current.value = "";
+    nameRef.current.focus();
+  }
 
   return (
     <div className="container">
@@ -152,7 +167,12 @@ function App() {
         </div>
 
         <button type="submit">Registrati</button>
+        <button onClick={resetForm}>Reset</button>
       </form>
+      <footer style={{ height: "100vh" }}></footer>
+      <button id="scrolltop-arrow" onClick={() => { nameRef.current.scrollIntoView({ behavior: "smooth" }) }}>
+        ⬆️
+      </button>
     </div>
   )
 };
